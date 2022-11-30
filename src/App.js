@@ -1,12 +1,13 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import axios, * as others from "axios";
 import useSpeechToText from "react-hook-speech-to-text";
 import DisplayJson from "./Components/DisplayJson";
-const URI = "https://proj-slate-backend.herokuapp.com";
-// const URI = "http://127.0.0.1:5000";
+
+// const URI = "https://proj-slate-backend.herokuapp.com";
+const URI = "http://127.0.0.1:5000";
 
 function MyForm() {
   const [text, setText] = useState("");
@@ -27,6 +28,7 @@ function MyForm() {
     googleApiKey: "YOUR_GOOGLE_CLOUD_API_KEY_HERE",
     timeout: 10000000,
   });
+
   const ProcessResults = () => {
     if (results.length > 0 && results[0].transcript != [processedText]) {
       setProcessedText(results[0].transcript);
@@ -46,12 +48,13 @@ function MyForm() {
   };
   const handleSubmit = async (event) => {
     const response = await axios.get(`${URI}/process/?text=${text}`);
-    setData(response.data);
+    await setData(response.data);
   };
   const handleReset = async (event) => {
     const response = await axios.get(`${URI}/resetModel`);
     setData(response.data);
   };
+
   const handleDataSetlect = async (event) => {
     const response = await axios.get(
       `${URI}/process/?text=Select Iris DataSet`
@@ -151,7 +154,9 @@ function MyForm() {
     response = await axios.get(
       `${URI}/process/?text=Replace all null values with mean`
     );
+    response = await axios.get(`${URI}/process/?text=Remove null values`);
     response = await axios.get(`${URI}/process/?text=Apply Normalization`);
+    response = await axios.get(`${URI}/process/?text=Apply Standardization`);
     response = await axios.get(
       `${URI}/process/?text=split the dataset into split and train`
     );
@@ -181,6 +186,14 @@ function MyForm() {
       });
     }
   };
+  useEffect(() => {
+    handleTestFlow(null);
+  }, []);
+  if (data) {
+    if (data.CurrentProcess) {
+      console.log("Switch Tab");
+    }
+  }
   return (
     <div>
       <div style={{ display: "flex", padding: 10 }}>
@@ -208,7 +221,15 @@ function MyForm() {
           onKeyDown={onKeyPress}
         />
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <DisplayJson data={data} />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignContent: "flex-end",
+          paddingLeft: 30,
+        }}
+      >
         <div style={{ padding: 10 }}>
           <Button variant="contained" onClick={handleReset}>
             Reset
@@ -316,8 +337,6 @@ function MyForm() {
           </Button>
         </div>
       </div>
-
-      <DisplayJson data={data} />
     </div>
   );
 }

@@ -8,131 +8,54 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import "react-best-tabs/dist/index.css";
+import ScoreCard from "./ScoreCard";
+import Tabs from "./Tabs";
 
 export default function DisplayJson({ data }) {
-  console.log(data.Scores);
   const getHeadings = () => {
-    return data.Results[0];
+    if (data) {
+      if (data.Results) {
+        if (data.Results[0]) {
+          return data.Results[0];
+        }
+      }
+    }
+    return [];
   };
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "left",
+        justifyContent: "space-between",
         alignItems: "flex-start",
         backgroundColor: "#ebebeb",
-        padding: 50,
+        minHeight: window.innerHeight * 0.9 + "px",
       }}
     >
-      {data && data.Scores && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            padding: 20,
-            zoom: 0.8,
-          }}
-        >
-          <div style={{ paddingRight: 82 }}>Scores : </div>
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <div style={{ display: "flex" }}>
-                <Typography
-                  sx={{ fontSize: 14, paddingRight: 3 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Training Score:
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 14, color: "#ff0060" }}
-                  color="text.secondary"
-                  gutterBottom
-                  fontWeight="Bold"
-                >
-                  {data.Scores["Training Score"] != null
-                    ? Math.round(
-                        (data.Scores["Training Score"] + Number.EPSILON) * 100
-                      ) / 100
-                    : "NA"}
-                </Typography>
-              </div>
-              <div style={{ display: "flex" }}>
-                <Typography
-                  sx={{ fontSize: 14, paddingRight: 4 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Testing Score:
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 14, color: "#473fffb3" }}
-                  color="text.secondary"
-                  gutterBottom
-                  fontWeight="Bold"
-                >
-                  {data.Scores["Testing Score"] != null
-                    ? Math.round(
-                        (data.Scores["Testing Score"] + Number.EPSILON) * 100
-                      ) / 100
-                    : "NA"}
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
+      <Tabs data={data}>
+        <div label="Model">
+          <DisplayBlock data={data.model} />
         </div>
-      )}
-      {data && data.model && data.model.Blocks.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            padding: 20,
-            zoom: 0.8,
-          }}
-        >
-          <div style={{ paddingRight: 82 }}>Model : </div>
-          {data.model && <DisplayBlock data={data.model} />}
+        <div label="Score Card">
+          <ScoreCard data={data} />
         </div>
-      )}
-      {data &&
-        data.CurrentProcess &&
-        JSON.stringify(data.CurrentProcess) != "{}" && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "flex-start",
-              padding: 20,
-              zoom: 0.8,
-            }}
-          >
-            <div style={{ paddingRight: 20 }}>Current Process : </div>
-            <JsonViewer value={data.CurrentProcess} />
-          </div>
-        )}
-      {data && data.Results && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            padding: 20,
-          }}
-        >
-          <div style={{ paddingRight: 90 }}>DataFrame : </div>
-          {data.Results && (
-            <Table
-              theadData={getHeadings()}
-              tbodyData={data.Results.slice(1, data.Results.length)}
-            />
-          )}{" "}
+        <div label="Sample Dataset">
+          <Table
+            theadData={getHeadings()}
+            tbodyData={
+              data && data.Results && data.Results.length > 0
+                ? data.Results.slice(1, data.Results.length)
+                : []
+            }
+          />
         </div>
-      )}
-      <div style={{ display: "flex" }}>
+        <div label="CurrentStep">
+          <JsonViewer value={data.CurrentProcess} />
+        </div>
+      </Tabs>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {data && data.model && data.model.CreatedAt && (
           <div
             style={{
@@ -141,7 +64,7 @@ export default function DisplayJson({ data }) {
             }}
           >
             <p>Created At :</p>
-            <p style={{ paddingLeft: 5, paddingRight: 10, color: "green" }}>
+            <p style={{ paddingLeft: 5, paddingRight: 5, color: "green" }}>
               {data.model.CreatedAt}
             </p>
           </div>

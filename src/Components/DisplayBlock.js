@@ -7,33 +7,43 @@ import MLCard from "./MLCard";
 
 export default function DisplayBlock({ data }) {
   return (
-    <div>
-      {data.Blocks.map((block, index) => {
-        if (block.Category == "Data") {
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        overflow: "scroll",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {data &&
+        data.Blocks &&
+        data.Blocks.map((block, index) => {
+          if (block.Category == "Data") {
+            return (
+              <div>
+                <DataCard number={index + 1} block={block} />
+              </div>
+            );
+          } else if (block.Category == "Transform") {
+            return (
+              <div>
+                <TransformCard number={index + 1} block={block} />
+              </div>
+            );
+          } else if (block.Category == "Model") {
+            return (
+              <div>
+                <MLCard number={index + 1} block={block} />
+              </div>
+            );
+          }
           return (
             <div>
-              <DataCard number={index + 1} block={block} />
+              <JsonViewer value={block} />
             </div>
           );
-        } else if (block.Category == "Transform") {
-          return (
-            <div>
-              <TransformCard number={index + 1} block={block} />
-            </div>
-          );
-        } else if (block.Category == "Model") {
-          return (
-            <div>
-              <MLCard number={index + 1} block={block} />
-            </div>
-          );
-        }
-        return (
-          <div>
-            <JsonViewer value={block} />
-          </div>
-        );
-      })}
+        })}
     </div>
   );
   // return <JsonViewer value={data} />;

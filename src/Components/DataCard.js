@@ -66,7 +66,7 @@ export default function DataCard({ number, block }) {
                     setShow(true);
                   }}
                 >
-                  Show
+                  More
                 </Button>
               )}
               {show && (
