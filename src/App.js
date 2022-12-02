@@ -18,7 +18,7 @@ const URI = "http://127.0.0.1:5000";
 function MyForm() {
   const [text, setText] = useState("");
   const [data, setData2] = useState({});
-  const [activeTab, setActiveTab] = useState("Graphs");
+  const [activeTab, setActiveTab] = useState("Model");
   const [processedText, setProcessedText] = useState("");
   const {
     error,
