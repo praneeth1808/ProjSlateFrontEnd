@@ -2,7 +2,6 @@ import "./App.css";
 import React, { Component, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import axios, * as others from "axios";
 import useSpeechToText from "react-hook-speech-to-text";
 import DisplayJson from "./Components/DisplayJson";
 import fixed_recording from "./assets/fixed.gif";
@@ -19,7 +18,7 @@ const URI = "http://127.0.0.1:5000";
 function MyForm() {
   const [text, setText] = useState("");
   const [data, setData2] = useState({});
-  const [activeTab, setActiveTab] = useState("Model");
+  const [activeTab, setActiveTab] = useState("Graphs");
   const [processedText, setProcessedText] = useState("");
   const {
     error,
@@ -89,158 +88,167 @@ function MyForm() {
         stopSpeechToText();
         return <></>;
       } else {
-        const response = axios
-          .get(`${URI}/process/?text=${results[0].transcript}`)
-          .then((res) => {
-            setData(res.data);
-          });
+        const response = fetch(`${URI}/process/?text=${results[0].transcript}`)
+          .then((res) => res.json())
+          .then((actualData) => setData(actualData));
         setResults([]);
       }
       return <></>;
     }
   };
   const handleSubmit = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=${text}`);
-    await setData(response.data);
+    const response = await fetch(`${URI}/process/?text=${text}`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleReset = async (event) => {
-    const response = await axios.get(`${URI}/resetModel`);
-    setData(response.data);
+    const response = await fetch(`${URI}/resetModel`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
 
   const handleDataSetlect = async (event) => {
-    const response = await axios.get(
-      `${URI}/process/?text=Select Iris DataSet`
-    );
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Select Iris DataSet`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleStandardization = async (event) => {
-    const response = await axios.get(
-      `${URI}/process/?text=Apply Standardization`
-    );
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Apply Standardization`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleSplitAndTrain = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=split the dataset into split and train`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleStndize1Col = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Apply Standardization for sepal width`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleStndize1Col2 = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Apply Standardization for sepal length`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleDataSetlectSales = async (event) => {
-    const response = await axios.get(
-      `${URI}/process/?text=Select Sales data set`
-    );
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Select Sales data set`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleLinearRegression = async (event) => {
-    const response = await axios.get(
-      `${URI}/process/?text=apply Linear regression`
-    );
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=apply Linear regression`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleRemoveNulls = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=Remove null values`);
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Remove null values`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleRemoveNulls_Columns = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=Columns`);
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Columns`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleRemoveNulls_Rows = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=Rows`);
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=Rows`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleRemoveNulls_SepalWidth = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Remove nulls from SepalWidth`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleRemoveNulls_PetalWidth = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Remove nulls from Petal Width`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleReplaceNulls_mean = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Replace all null values with mean`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleReplaceNulls_mode_PetalWidth = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Replace nulls from Petal length with mode`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleReplaceNulls_mean_sepalWidth = async (event) => {
-    const response = await axios.get(
+    const response = await fetch(
       `${URI}/process/?text=Replace nulls from SepalWidth with mean`
-    );
-    setData(response.data);
+    )
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleIQR = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=use IQR`);
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=use IQR`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleZScore = async (event) => {
-    const response = await axios.get(`${URI}/process/?text=use Z Score`);
-    setData(response.data);
+    const response = await fetch(`${URI}/process/?text=use Z Score`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleTestFlow = async (event) => {
     var response = "";
-    response = await axios.get(`${URI}/resetModel`);
-    response = await axios.get(`${URI}/process/?text=Select Iris DataSet`);
-    response = await axios.get(
+    response = await fetch(`${URI}/resetModel`);
+    response = await fetch(`${URI}/process/?text=Select Iris DataSet`);
+    response = await fetch(
       `${URI}/process/?text=Replace all null values with mean`
     );
-    response = await axios.get(`${URI}/process/?text=Remove null values`);
-    response = await axios.get(`${URI}/process/?text=Apply Normalization`);
-    response = await axios.get(`${URI}/process/?text=Apply Standardization`);
-    response = await axios.get(
+    response = await fetch(`${URI}/process/?text=Remove null values`);
+    response = await fetch(`${URI}/process/?text=Apply Normalization`);
+    response = await fetch(`${URI}/process/?text=Apply Standardization`);
+    response = await fetch(
       `${URI}/process/?text=split the dataset into split and train`
     );
-    response = await axios.get(
-      `${URI}/process/?text=apply Decission tree model`
-    );
-    setData(response.data);
+    response = await fetch(`${URI}/process/?text=apply Decission tree model`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const handleTestFlow_LR = async (event) => {
     var response = "";
-    response = await axios.get(`${URI}/resetModel`);
-    response = await axios.get(`${URI}/process/?text=Select Iris DataSet`);
-    response = await axios.get(
+    response = await fetch(`${URI}/resetModel`);
+    response = await fetch(`${URI}/process/?text=Select Iris DataSet`);
+    response = await fetch(
       `${URI}/process/?text=Replace all null values with mean`
     );
-    response = await axios.get(`${URI}/process/?text=Apply Normalization`);
-    response = await axios.get(
+    response = await fetch(`${URI}/process/?text=Apply Normalization`);
+    response = await fetch(
       `${URI}/process/?text=split the dataset into split and train`
     );
-    response = await axios.get(`${URI}/process/?text=apply Linear Regression`);
-    setData(response.data);
+    response = await fetch(`${URI}/process/?text=apply Linear Regression`)
+      .then((res) => res.json())
+      .then((actualData) => setData(actualData));
   };
   const onKeyPress = (event) => {
     if (event.keyCode == 13) {
-      const response = axios.get(`${URI}/process/?text=${text}`).then((res) => {
-        setData(res.data);
-      });
+      const response = fetch(`${URI}/process/?text=${text}`)
+        .then((res) => res.json())
+        .then((actualData) => setData(actualData));
     }
   };
   useEffect(() => {
-    handleTestFlow(null);
+    handleDataSetlect(null);
   }, []);
   return (
     <div>

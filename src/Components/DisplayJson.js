@@ -56,27 +56,7 @@ export default function DisplayJson({ data, activeTab, setActiveTab }) {
           <div label="CurrentStep">
             <JsonViewer value={data.CurrentProcess} />
           </div>
-          <div label="Graphs">
-            <div>
-              {data && data.Graphs && Object.keys(data.Graphs).length > 0 && (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <p>
-                    {" "}
-                    These are static for now - live graphs is under progress
-                  </p>
-                  {Object.keys(data.Graphs).map((each_graph) => {
-                    console.log(each_graph);
-                    return (
-                      <Image
-                        image_url={data.Graphs[each_graph]}
-                        title={each_graph}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
+
         </Tabs>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
