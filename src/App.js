@@ -32,7 +32,24 @@ function MyForm() {
   const setData = (data) => {
     console.log("Here");
     console.log(data);
-    setData2(data);
+    if (
+      data &&
+      data.CurrentProcess &&
+      data.CurrentProcess.Action &&
+      data.CurrentProcess.Action == "SwitchTab" &&
+      data.CurrentProcess.value &&
+      data.CurrentProcess.value.length > 0
+    ) {
+      setActiveTab(data.CurrentProcess.value);
+      setData2({
+        CurrentProcess: {},
+        Results: data.Results,
+        Scores: data.Scores,
+        model: data.model,
+      });
+    } else {
+      setData2(data);
+    }
   };
   const ProcessResults = () => {
     if (results.length > 0 && results[0].transcript != [processedText]) {
