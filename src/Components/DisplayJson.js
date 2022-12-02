@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import "react-best-tabs/dist/index.css";
 import ScoreCard from "./ScoreCard";
 import Tabs from "./Tabs";
-
+import Image from "./imageBlock";
 export default function DisplayJson({ data, activeTab, setActiveTab }) {
   const getHeadings = () => {
     if (data) {
@@ -23,6 +23,7 @@ export default function DisplayJson({ data, activeTab, setActiveTab }) {
     }
     return [];
   };
+
   return (
     <div
       style={{
@@ -31,30 +32,53 @@ export default function DisplayJson({ data, activeTab, setActiveTab }) {
         justifyContent: "space-between",
         alignItems: "flex-start",
         backgroundColor: "#ebebeb",
-        minHeight: window.innerHeight * 0.9 + "px",
+        minHeight: window.innerHeight * 0.92 + "px",
       }}
     >
-      <Tabs data={data} activeTab={activeTab} setActiveTab={setActiveTab}>
-        <div label="Model">
-          <DisplayBlock data={data.model} />
-        </div>
-        <div label="Score Card">
-          <ScoreCard data={data} />
-        </div>
-        <div label="Sample Dataset">
-          <Table
-            theadData={getHeadings()}
-            tbodyData={
-              data && data.Results && data.Results.length > 0
-                ? data.Results.slice(1, data.Results.length)
-                : []
-            }
-          />
-        </div>
-        <div label="CurrentStep">
-          <JsonViewer value={data.CurrentProcess} />
-        </div>
-      </Tabs>
+      <div style={{ overflow: "scroll" }}>
+        <Tabs data={data} activeTab={activeTab} setActiveTab={setActiveTab}>
+          <div label="Model">
+            <DisplayBlock data={data.model} />
+          </div>
+          <div label="Score Card">
+            <ScoreCard data={data} />
+          </div>
+          <div label="Sample Dataset">
+            <Table
+              theadData={getHeadings()}
+              tbodyData={
+                data && data.Results && data.Results.length > 0
+                  ? data.Results.slice(1, data.Results.length)
+                  : []
+              }
+            />
+          </div>
+          <div label="CurrentStep">
+            <JsonViewer value={data.CurrentProcess} />
+          </div>
+          <div label="Graphs">
+            <div>
+              {data && data.Graphs && Object.keys(data.Graphs).length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <p>
+                    {" "}
+                    These are static for now - live graphs is under progress
+                  </p>
+                  {Object.keys(data.Graphs).map((each_graph) => {
+                    console.log(each_graph);
+                    return (
+                      <Image
+                        image_url={data.Graphs[each_graph]}
+                        title={each_graph}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </Tabs>
+      </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {data && data.model && data.model.CreatedAt && (
           <div

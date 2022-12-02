@@ -5,7 +5,8 @@ import TextField from "@mui/material/TextField";
 import axios, * as others from "axios";
 import useSpeechToText from "react-hook-speech-to-text";
 import DisplayJson from "./Components/DisplayJson";
-
+import fixed_recording from "./assets/fixed.gif";
+import live_recording from "./assets/listening.gif";
 // const URI = "https://proj-slate-backend.herokuapp.com";
 const URI = "http://127.0.0.1:5000";
 
@@ -46,6 +47,7 @@ function MyForm() {
         Results: data.Results,
         Scores: data.Scores,
         model: data.model,
+        Graphs: data.Graphs,
       });
     } else {
       setData2(data);
@@ -213,14 +215,56 @@ function MyForm() {
   }, []);
   return (
     <div>
-      <div style={{ display: "flex", padding: 10 }}>
-        <div style={{ paddingRight: 10 }}>
-          <Button
+      <div
+        style={{
+          display: "flex",
+          padding: "10px 10px 0px 10px",
+        }}
+      >
+        <div
+          style={{ paddingRight: 10 }}
+          onClick={isRecording ? stopSpeechToText : startSpeechToText}
+        >
+          <div
+            style={{
+              width: window.innerWidth * 0.08,
+              height: window.innerWidth * 0.08,
+            }}
+          >
+            {isRecording && (
+              <img
+                style={{
+                  height: 50,
+                  paddingLeft: window.innerWidth * 0.01,
+                  paddingRight: window.innerWidth * 0.01,
+                  borderRadius: "100%",
+                  background: "#ffb6b6",
+                }}
+                src={live_recording}
+                alt="loading..."
+              />
+            )}
+            {!isRecording && (
+              <img
+                style={{
+                  height: 50,
+                  paddingLeft: window.innerWidth * 0.01,
+                  paddingRight: window.innerWidth * 0.01,
+                  borderRadius: "100%",
+                  background: "#ff3f3f",
+                }}
+                src={fixed_recording}
+                alt="loading..."
+              />
+            )}
+          </div>
+
+          {/* <Button
             variant="contained"
             onClick={isRecording ? stopSpeechToText : startSpeechToText}
           >
             {isRecording ? "Stop Recording" : "Start Recording"}
-          </Button>
+          </Button> */}
         </div>
         {results && ProcessResults()}
         <TextField
@@ -234,7 +278,7 @@ function MyForm() {
           variant="outlined"
           fullWidth={true}
           onChange={(e) => setText(e.target.value)}
-          style={{ width: 1000, padding: 0 }}
+          style={{ width: window.innerWidth * 0.9, padding: 0 }}
           onKeyDown={onKeyPress}
         />
       </div>
