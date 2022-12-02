@@ -11,7 +11,8 @@ const URI = "http://127.0.0.1:5000";
 
 function MyForm() {
   const [text, setText] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData2] = useState({});
+  const [activeTab, setActiveTab] = useState("Model");
   const [processedText, setProcessedText] = useState("");
   const {
     error,
@@ -28,7 +29,11 @@ function MyForm() {
     googleApiKey: "YOUR_GOOGLE_CLOUD_API_KEY_HERE",
     timeout: 10000000,
   });
-
+  const setData = (data) => {
+    console.log("Here");
+    console.log(data);
+    setData2(data);
+  };
   const ProcessResults = () => {
     if (results.length > 0 && results[0].transcript != [processedText]) {
       setProcessedText(results[0].transcript);
@@ -189,11 +194,6 @@ function MyForm() {
   useEffect(() => {
     handleTestFlow(null);
   }, []);
-  if (data) {
-    if (data.CurrentProcess) {
-      console.log("Switch Tab");
-    }
-  }
   return (
     <div>
       <div style={{ display: "flex", padding: 10 }}>
@@ -221,7 +221,11 @@ function MyForm() {
           onKeyDown={onKeyPress}
         />
       </div>
-      <DisplayJson data={data} />
+      <DisplayJson
+        data={data}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
       <div
         style={{
           display: "flex",

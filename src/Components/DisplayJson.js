@@ -12,7 +12,7 @@ import "react-best-tabs/dist/index.css";
 import ScoreCard from "./ScoreCard";
 import Tabs from "./Tabs";
 
-export default function DisplayJson({ data }) {
+export default function DisplayJson({ data, activeTab, setActiveTab }) {
   const getHeadings = () => {
     if (data) {
       if (data.Results) {
@@ -34,7 +34,7 @@ export default function DisplayJson({ data }) {
         minHeight: window.innerHeight * 0.9 + "px",
       }}
     >
-      <Tabs data={data}>
+      <Tabs data={data} activeTab={activeTab} setActiveTab={setActiveTab}>
         <div label="Model">
           <DisplayBlock data={data.model} />
         </div>

@@ -11,7 +11,7 @@ class Tabs extends Component {
     super(props);
 
     this.state = {
-      activeTab: this.props.children[0].props.label,
+      // activeTab: this.props.children[0].props.label,
       data: this.props.data,
     };
   }
@@ -35,8 +35,8 @@ class Tabs extends Component {
     const {
       onClickTabItem,
       decideActiveTab,
-      props: { children, data },
-      state: { activeTab },
+      props: { children, data, activeTab, setActiveTab },
+      // state: { activeTab },
     } = this;
     decideActiveTab(data);
     return (
@@ -50,7 +50,7 @@ class Tabs extends Component {
                 activeTab={activeTab}
                 key={label}
                 label={label}
-                onClick={onClickTabItem}
+                onClick={setActiveTab}
               />
             );
           })}
