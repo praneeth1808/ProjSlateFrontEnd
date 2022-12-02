@@ -7,6 +7,12 @@ import useSpeechToText from "react-hook-speech-to-text";
 import DisplayJson from "./Components/DisplayJson";
 import fixed_recording from "./assets/fixed.gif";
 import live_recording from "./assets/listening.gif";
+import Blink from "react-blink-text";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 // const URI = "https://proj-slate-backend.herokuapp.com";
 const URI = "http://127.0.0.1:5000";
 
@@ -43,6 +49,29 @@ function MyForm() {
     ) {
       setActiveTab(data.CurrentProcess.value);
       setData2({
+        messageType: "",
+        message: "",
+        CurrentProcess: {},
+        Results: data.Results,
+        Scores: data.Scores,
+        model: data.model,
+        Graphs: data.Graphs,
+      });
+    } else if (
+      data &&
+      data.message &&
+      data.message.length > 0 &&
+      data.messageType &&
+      data.messageType.length > 0
+    ) {
+      if (data.messageType == "Info") {
+        NotificationManager.info(data.message, "", 5000);
+      } else {
+        NotificationManager.error(data.message, "", 5000);
+      }
+      setData2({
+        messageType: "",
+        message: "",
         CurrentProcess: {},
         Results: data.Results,
         Scores: data.Scores,
@@ -221,6 +250,7 @@ function MyForm() {
           padding: "10px 10px 0px 10px",
         }}
       >
+        <NotificationContainer />
         <div
           style={{ paddingRight: 10 }}
           onClick={isRecording ? stopSpeechToText : startSpeechToText}
@@ -232,30 +262,44 @@ function MyForm() {
             }}
           >
             {isRecording && (
-              <img
-                style={{
-                  height: 50,
-                  paddingLeft: window.innerWidth * 0.01,
-                  paddingRight: window.innerWidth * 0.01,
-                  borderRadius: "100%",
-                  background: "#ffb6b6",
-                }}
-                src={live_recording}
-                alt="loading..."
-              />
+              <>
+                <img
+                  style={{
+                    height: 50,
+                    paddingLeft: window.innerWidth * 0.01,
+                    paddingRight: window.innerWidth * 0.01,
+                    borderRadius: "100%",
+                    background: "#ffb6b6",
+                  }}
+                  src={live_recording}
+                  alt="loading..."
+                />
+              </>
             )}
             {!isRecording && (
-              <img
-                style={{
-                  height: 50,
-                  paddingLeft: window.innerWidth * 0.01,
-                  paddingRight: window.innerWidth * 0.01,
-                  borderRadius: "100%",
-                  background: "#ff3f3f",
-                }}
-                src={fixed_recording}
-                alt="loading..."
-              />
+              <>
+                <img
+                  style={{
+                    height: 50,
+                    paddingLeft: window.innerWidth * 0.01,
+                    paddingRight: window.innerWidth * 0.01,
+                    borderRadius: "100%",
+                    background: "#ff3f3f",
+                  }}
+                  src={fixed_recording}
+                  alt="loading..."
+                />
+                <div
+                  style={{
+                    zoom: 0.7,
+                    margin: "-1px -1px -1px 6px",
+                  }}
+                >
+                  <Blink color="#6b0d45" text="Click Me !!" fontSize="20">
+                    Click Me !!
+                  </Blink>
+                </div>
+              </>
             )}
           </div>
 
@@ -267,20 +311,40 @@ function MyForm() {
           </Button> */}
         </div>
         {results && ProcessResults()}
-        <TextField
-          value={
-            results.length > 0 && results[0].transcript
-              ? results[0].transcript
-              : interimResult
-          }
-          id="outlined-basic"
-          label=""
-          variant="outlined"
-          fullWidth={true}
-          onChange={(e) => setText(e.target.value)}
-          style={{ width: window.innerWidth * 0.9, padding: 0 }}
-          onKeyDown={onKeyPress}
-        />
+        {isRecording && (
+          <TextField
+            label={"Recording ..!!"}
+            value={
+              results.length > 0 && results[0].transcript
+                ? results[0].transcript
+                : interimResult
+            }
+            id="outlined-basic"
+            variant="outlined"
+            fullWidth={true}
+            onChange={(e) => setText(e.target.value)}
+            style={{ width: window.innerWidth * 0.9, padding: 0 }}
+            onKeyDown={onKeyPress}
+            disabled={true}
+            defaultValue={" "}
+          />
+        )}
+        {!isRecording && (
+          <TextField
+            label={"Enter Command"}
+            value={
+              results.length > 0 && results[0].transcript
+                ? results[0].transcript
+                : interimResult
+            }
+            id="outlined-basic"
+            variant="outlined"
+            fullWidth={true}
+            onChange={(e) => setText(e.target.value)}
+            style={{ width: window.innerWidth * 0.9, padding: 0 }}
+            onKeyDown={onKeyPress}
+          />
+        )}
       </div>
       <DisplayJson
         data={data}
