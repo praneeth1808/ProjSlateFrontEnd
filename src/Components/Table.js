@@ -39,9 +39,11 @@ export default function Table({ theadData, tbodyData }) {
                 {theadData.map((key, index) => {
                   return (
                     <td key={row[key]}>
-                      {row[key] != null
-                        ? Math.round((row[key] + Number.EPSILON) * 100) / 100
-                        : "NA"}
+                      {row[key] != null ? (
+                        Math.round((row[key] + Number.EPSILON) * 100) / 100
+                      ) : (
+                        <p style={{ color: "blue", margin: 0 }}>null</p>
+                      )}
                     </td>
                   );
                 })}

@@ -56,6 +56,7 @@ function MyForm() {
         model: data.model,
         Graphs: data.Graphs,
       });
+      
     } else if (
       data &&
       data.message &&
@@ -96,147 +97,8 @@ function MyForm() {
       return <></>;
     }
   };
-  const handleSubmit = async (event) => {
-    const response = await fetch(`${URI}/process/?text=${text}`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
   const handleReset = async (event) => {
     const response = await fetch(`${URI}/resetModel`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-
-  const handleDataSetlect = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Select Iris DataSet`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleStandardization = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Apply Standardization`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleSplitAndTrain = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=split the dataset into split and train`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleStndize1Col = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Apply Standardization for sepal width`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleStndize1Col2 = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Apply Standardization for sepal length`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleDataSetlectSales = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Select Sales data set`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleLinearRegression = async (event) => {
-    const response = await fetch(`${URI}/process/?text=apply Linear regression`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleRemoveNulls = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Remove null values`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleRemoveNulls_Columns = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Columns`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleRemoveNulls_Rows = async (event) => {
-    const response = await fetch(`${URI}/process/?text=Rows`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleRemoveNulls_SepalWidth = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Remove nulls from SepalWidth`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleRemoveNulls_PetalWidth = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Remove nulls from Petal Width`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleReplaceNulls_mean = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Replace all null values with mean`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleReplaceNulls_mode_PetalWidth = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Replace nulls from Petal length with mode`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleReplaceNulls_mean_sepalWidth = async (event) => {
-    const response = await fetch(
-      `${URI}/process/?text=Replace nulls from SepalWidth with mean`
-    )
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleIQR = async (event) => {
-    const response = await fetch(`${URI}/process/?text=use IQR`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleZScore = async (event) => {
-    const response = await fetch(`${URI}/process/?text=use Z Score`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleTestFlow = async (event) => {
-    var response = "";
-    response = await fetch(`${URI}/resetModel`);
-    response = await fetch(`${URI}/process/?text=Select Iris DataSet`);
-    response = await fetch(
-      `${URI}/process/?text=Replace all null values with mean`
-    );
-    response = await fetch(`${URI}/process/?text=Remove null values`);
-    response = await fetch(`${URI}/process/?text=Apply Normalization`);
-    response = await fetch(`${URI}/process/?text=Apply Standardization`);
-    response = await fetch(
-      `${URI}/process/?text=split the dataset into split and train`
-    );
-    response = await fetch(`${URI}/process/?text=apply Decission tree model`)
-      .then((res) => res.json())
-      .then((actualData) => setData(actualData));
-  };
-  const handleTestFlow_LR = async (event) => {
-    var response = "";
-    response = await fetch(`${URI}/resetModel`);
-    response = await fetch(`${URI}/process/?text=Select Iris DataSet`);
-    response = await fetch(
-      `${URI}/process/?text=Replace all null values with mean`
-    );
-    response = await fetch(`${URI}/process/?text=Apply Normalization`);
-    response = await fetch(
-      `${URI}/process/?text=split the dataset into split and train`
-    );
-    response = await fetch(`${URI}/process/?text=apply Linear Regression`)
       .then((res) => res.json())
       .then((actualData) => setData(actualData));
   };
@@ -248,7 +110,7 @@ function MyForm() {
     }
   };
   useEffect(() => {
-    handleDataSetlect(null);
+    handleReset(null);
   }, []);
   return (
     <div>
@@ -266,11 +128,12 @@ function MyForm() {
           <div
             style={{
               width: window.innerWidth * 0.08,
-              height: window.innerWidth * 0.08,
+              height: window.innerWidth * 0.05,
+              background: "white",
             }}
           >
             {isRecording && (
-              <>
+              <div style={{ height: "66px" }}>
                 <img
                   style={{
                     height: 50,
@@ -282,10 +145,10 @@ function MyForm() {
                   src={live_recording}
                   alt="loading..."
                 />
-              </>
+              </div>
             )}
             {!isRecording && (
-              <>
+              <div style={{ height: "66px" }}>
                 <img
                   style={{
                     height: 50,
@@ -307,16 +170,9 @@ function MyForm() {
                     Click Me !!
                   </Blink>
                 </div>
-              </>
+              </div>
             )}
           </div>
-
-          {/* <Button
-            variant="contained"
-            onClick={isRecording ? stopSpeechToText : startSpeechToText}
-          >
-            {isRecording ? "Stop Recording" : "Start Recording"}
-          </Button> */}
         </div>
         {results && ProcessResults()}
         {isRecording && (
@@ -359,121 +215,6 @@ function MyForm() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignContent: "flex-end",
-          paddingLeft: 30,
-        }}
-      >
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleReset}>
-            Reset
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleDataSetlect}>
-            Select Iris
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleDataSetlectSales}>
-            Select Sales
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleStandardization}>
-            Standardization
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleSplitAndTrain}>
-            Split to Train & Test
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleLinearRegression}>
-            Apply Linear Regression
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleStndize1Col}>
-            Stndize-SepalWidth
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleStndize1Col2}>
-            Stndize-SepalLength
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleRemoveNulls}>
-            Remove Nulls
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleRemoveNulls_Rows}>
-            follow_Remove Nulls-Rows
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleRemoveNulls_Columns}>
-            follow_Remove Nulls-columns
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleRemoveNulls_SepalWidth}>
-            RemoveNulls_sepalwidth
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleRemoveNulls_PetalWidth}>
-            RemoveNulls_PetalWidth
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleReplaceNulls_mean}>
-            ReplaceNulls-Mean
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button
-            variant="contained"
-            onClick={handleReplaceNulls_mean_sepalWidth}
-          >
-            ReplaceNulls-Mean-SeaplWidth
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button
-            variant="contained"
-            onClick={handleReplaceNulls_mode_PetalWidth}
-          >
-            ReplaceNulls-mode-PetalWidth
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleIQR}>
-            Use IQR
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleZScore}>
-            Use ZScore
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleTestFlow}>
-            Test Happy flow Decission Tree
-          </Button>
-        </div>
-        <div style={{ padding: 10 }}>
-          <Button variant="contained" onClick={handleTestFlow_LR}>
-            Test Happy flow Linear Regression
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }

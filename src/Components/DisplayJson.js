@@ -43,7 +43,7 @@ export default function DisplayJson({ data, activeTab, setActiveTab }) {
           <div label="Score Card">
             <ScoreCard data={data} />
           </div>
-          <div label="Sample Dataset">
+          <div label="Dataset">
             <Table
               theadData={getHeadings()}
               tbodyData={
@@ -56,10 +56,17 @@ export default function DisplayJson({ data, activeTab, setActiveTab }) {
           <div label="CurrentStep">
             <JsonViewer value={data.CurrentProcess} />
           </div>
-
         </Tabs>
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          position: "fixed",
+          bottom: 0,
+          padding: "10px 10px 10px 20px",
+        }}
+      >
         {data && data.model && data.model.CreatedAt && (
           <div
             style={{
